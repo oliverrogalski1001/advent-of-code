@@ -11,7 +11,8 @@ class Tree:
         self.size = 0
 
 
-wd = Tree("/")
+root = Tree("/")
+wd = root
 for i in f:
     command = i.split(" ")
     if i[0] != "$":
@@ -29,9 +30,6 @@ for i in f:
         else:
             wd = wd.parent
 
-while wd.data != "/":
-    wd = wd.parent
-
 file_sizes = []
 
 
@@ -44,9 +42,8 @@ def size(tree: Tree):
             x = size(j)
             file_sizes.append(x)
             count += x
-
     return count
 
 
-file_sizes.append(size(wd))
+file_sizes.append(size(root))
 print(sum(filter(lambda x: x <= 100000, file_sizes)))
