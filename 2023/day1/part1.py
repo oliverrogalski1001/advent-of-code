@@ -1,6 +1,6 @@
 
 lines = []
-with open("input.txt", "r") as f:
+with open("input", "r") as f:
     for line in f.readlines():
         lines.append(line.strip())
 
