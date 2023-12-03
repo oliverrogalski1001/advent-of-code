@@ -1,6 +1,6 @@
 
 grid = []
-with open("input_test", "r") as f:
+with open("input", "r") as f:
     for line in f.readlines():
         grid.append(line.strip())
 
@@ -34,11 +34,21 @@ for i, line in enumerate(grid):
         for coord in nums:
             num_coords[coord] = int(curr_num)
 
-print(num_coords)
-
+gear_sum = 0
 for i, line in enumerate(grid):
     for j, c in enumerate(line):
-
+        if c == "*":
+            nums = set()
             for ii in range(-1, 2):
                 for jj in range(-1, 2):
+                    if (i + ii, j + jj) in num_coords.keys():
+                        nums.add(num_coords[(i + ii, j + jj)])
+            if len(nums) == 2:
+                ratio = 1
+                for num in nums:
+                    ratio *= num
+                gear_sum += ratio
+
+print(gear_sum)
+
 
