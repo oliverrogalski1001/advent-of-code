@@ -1,5 +1,5 @@
 
-with open("input_test", "r") as f:
+with open("input", "r") as f:
     seed_line = f.readline()
     f.readline()
     seeds = [int(s) for s in seed_line[7:].split(" ")]
@@ -15,30 +15,34 @@ with open("input_test", "r") as f:
         mapping.append(tuple(int(s) for s in line.split(" ")))
     maps.append(mapping)
 
-    seeds = [(seeds[i], seeds[i] + seeds[i + 1]) for i in range(0, len(seeds), 2)]
-    print(seeds)
+seeds = [(seeds[i], seeds[i] + seeds[i + 1]) for i in range(0, len(seeds), 2)]
 
-    for map in maps:
-        shifted = []
-        for seed_range in seeds:
-            temp = [seed_range]
-            for instr in map:
-                next_seed_range = temp
-                temp = []
-                for new_seed_range in next_seed_range:
-                    instr_range = (instr[1], instr[1] + instr[2])
-                    shift = instr[1] - instr[0]
-                    if seed_range[0] >= instr_range[0] and seed_range[1] <= instr_range[1]:
-                        temp.append((seed_range[0] + shift, seed_range[1] + shift))
-                    elif seed_range[0] <= instr_range[0] and seed_range[1] >= instr_range[1]:
-                        temp.append((seed_range[0], instr_range[0] - 1))
-                        temp.append((instr_range[0] + shift, instr_range[1] + shift))
-                        temp.append((instr_range[1] + 1, seed_range[1]))
-                    elif seed_range[0] < instr_range[0] and seed_range[1] <= instr_range[1]:
-                        temp.append((seed_range[0], instr_range[0] - 1))
-                        temp.append((instr_range[0] + shift, seed_range[1] + shift))
-                    elif seed_range[0] >= instr_range[0] and seed_range[1] > instr_range[1]:
-                        temp.append((seed_range[0] + shift, instr_range[1] + shift))
-                        temp.append((instr_range[1] + 1, seed_range[1]))
+map_buffer = seeds
+for map in maps:
+    shifted = map_buffer
+    map_buffer = []
+    for initial_seed in shifted:
+        temp = [initial_seed]
+        for instr in map:
+            next_seed_range = temp
+            temp = []
+            for seed_range in next_seed_range:
+                instr_range = (instr[1], instr[1] + instr[2])
+                shift = instr[0] - instr[1]
+                if seed_range[0] >= instr_range[0] and seed_range[1] <= instr_range[1]:
+                    map_buffer.append((seed_range[0] + shift, seed_range[1] + shift))
+                elif seed_range[0] <= instr_range[0] and seed_range[1] >= instr_range[1]:
+                    temp.append((seed_range[0], instr_range[0]))
+                    map_buffer.append((instr_range[0] + shift, instr_range[1] + shift))
+                    temp.append((instr_range[1], seed_range[1]))
+                elif seed_range[0] < instr_range[0] < seed_range[1] <= instr_range[1]:
+                    temp.append((seed_range[0], instr_range[0]))
+                    map_buffer.append((instr_range[0] + shift, seed_range[1] + shift))
+                elif instr_range[0] <= seed_range[0] < instr_range[0] <= seed_range[1]:
+                    temp.append((instr_range[1], seed_range[1]))
+                    map_buffer.append((seed_range[0] + shift, instr_range[1] + shift))
+                else:
+                    temp.append(seed_range)
+        map_buffer += temp
 
-
+print(min(map_buffer, key=lambda x: x[0])[0])
