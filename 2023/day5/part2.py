@@ -38,7 +38,7 @@ for map in maps:
                 elif seed_range[0] < instr_range[0] < seed_range[1] <= instr_range[1]:
                     temp.append((seed_range[0], instr_range[0]))
                     map_buffer.append((instr_range[0] + shift, seed_range[1] + shift))
-                elif instr_range[0] <= seed_range[0] < instr_range[0] <= seed_range[1]:
+                elif instr_range[0] <= seed_range[0] < instr_range[1] <= seed_range[1]:
                     temp.append((instr_range[1], seed_range[1]))
                     map_buffer.append((seed_range[0] + shift, instr_range[1] + shift))
                 else:
