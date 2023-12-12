@@ -1,5 +1,5 @@
 
-with open("input" , "r") as f:
+with open("input", "r") as f:
     lines = f.readlines()
     records = [line.strip().split(" ")[0] for line in lines]
     groups = [[int(x) for x in line.strip().split(" ")[1].split(",")] for line in lines]
