@@ -10,7 +10,6 @@ with open("input", "r") as f:
             temp.append(line.strip())
     grids.append(temp)
 
-print(grids)
 
 def horizontal_reflection(grid):
     for i in range(len(grid) - 1):
