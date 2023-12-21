@@ -16,8 +16,6 @@ with open("input", "r") as f:
     instr = [line.split(" ")[2].strip()[2:8] for line in f.readlines()]
     instr = list(map(lambda x: (dirs[int(x[5])], int(x[:5], base=16)), instr))
 
-print(instr)
-
 v = [(0, 0)]
 curr_coords = (0, 0)
 b = 0
